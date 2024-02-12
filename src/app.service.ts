@@ -26,7 +26,6 @@ export class AppService implements OnModuleInit {
       polling:true
     });
 
-    this.bot.setWebHook(`${url}/bot${token}`);
 
     this.bot.on('message', (msg) => {
       if (msg.text === 'test') {
@@ -50,5 +49,10 @@ export class AppService implements OnModuleInit {
           console.error(e);
         }
       }
-    )}
+    )
+
+  }
+  async processNotification(message, sab) {
+    this.bot.sendMessage(395059873, `${sab}`)
+  }
 }
