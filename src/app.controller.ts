@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
-@Controller()
+@Controller("bot")
 export class AppController {
   constructor() {}
   @Post()
