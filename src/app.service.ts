@@ -23,9 +23,7 @@ export class AppService implements OnModuleInit {
     const port = Number(process.env.TELEGRAM_PORT);
 
     this.bot = new TelegramBot(token, {
-      webHook: {
-        port: port,
-      },
+      polling: true,
     });
 
     this.bot.setWebHook(`${url}/bot${token}`);
