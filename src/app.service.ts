@@ -4,16 +4,17 @@ import  TelegramBot  from 'node-telegram-bot-api';
 import {InjectRepository} from "@nestjs/typeorm";
 import {TelegramSessionEntity} from "./entities/telegram-session.entity";
 import { Repository } from 'typeorm';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class AppService implements OnModuleInit {
   private bot: TelegramBot;
 
-  @InjectRepository(TelegramSessionEntity)
-  private telegramSessionRepository: Repository<TelegramSessionEntity>;
-
-  constructor() {
-  }
+  constructor(
+      @InjectModel('TelegramSessionEntity')
+      private readonly telegramSessionModel: Model<TelegramSessionEntity>,
+  ) {}
 
   onModuleInit() {
     const TelegramBot = require('node-telegram-bot-api');
@@ -39,18 +40,14 @@ export class AppService implements OnModuleInit {
     this.bot.onText(/\/login/, async (msg) => {
       const chatId = msg.chat.id;
         try {
-          await this.telegramSessionRepository
-              .createQueryBuilder('telegram')
-              .insert()
-              .into(TelegramSessionEntity)
-              .values({
-                chat_id: chatId,
-                user_id: 2,
-                access_token: "test",
-                role: "operator",
-              })
-              .execute();
-          await this.bot.sendMessage(chatId,"Test OK")
+          const newUser = new this.telegramSessionModel({
+            chat_id: chatId,
+            user_id: 2,
+            access_token: "test",
+            role: "operator",
+          });
+          await newUser.save();
+          await this.bot.sendMessage(chatId, "Test OK");
         } catch (e) {
           console.error(e);
         }

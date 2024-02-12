@@ -1,35 +1,19 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
-import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-@Entity({ name: 'telegram-session-entity' })
-@Index('idx_id_tg', ['id'])
-export class TelegramSessionEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: 'varchar', length: 255 })
+@Schema()
+export class TelegramSessionEntity extends Document {
+  @Prop({ required: true })
   chat_id: number;
 
-  @Column()
+  @Prop({ required: true })
   user_id: number;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Prop({ required: true })
   access_token: string;
 
-  @Column()
+  @Prop({ required: true })
   role: string;
-
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date;
 }
+
+export const TelegramSessionSchema = SchemaFactory.createForClass(TelegramSessionEntity);
