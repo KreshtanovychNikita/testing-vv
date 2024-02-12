@@ -1,6 +1,6 @@
 import {Injectable, OnModuleInit} from '@nestjs/common';
 import * as process from "process";
-import * as TelegramBot from 'node-telegram-bot-api';
+import  TelegramBot  from 'node-telegram-bot-api';
 import {InjectRepository} from "@nestjs/typeorm";
 import {TelegramSessionEntity} from "./entities/telegram-session.entity";
 import { Repository } from 'typeorm';
@@ -16,6 +16,7 @@ export class AppService implements OnModuleInit {
   }
 
   onModuleInit() {
+    const TelegramBot = require('node-telegram-bot-api');
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const url = process.env.BACKEND_URL;
     const port = Number(process.env.TELEGRAM_PORT);
