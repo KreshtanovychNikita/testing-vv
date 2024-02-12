@@ -32,6 +32,7 @@ export class AppService implements OnModuleInit {
     this.bot.on('message', (msg) => {
       if (msg.text === 'test') {
         console.log(`Great ${msg.chat.id}`);
+        this.bot.sendMessage(msg.chat.id,"hello")
       }
     });
 
